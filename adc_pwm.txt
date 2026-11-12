@@ -1,0 +1,9 @@
+Para lograr lo pedido, tenemos que enviar directamente el valor capturado por el ADC a la configuración del ancho de pulso.
+
+La solución es modificar task_pwm_update para mapear el valor del ADC a la salida PWM.
+Asumiendo que el ADC tiene una resolución estándar de 12 bits (valores de 0 a 4095) y el período del PWM 
+está definido en 65535, podemos escalar la lectura del ADC multiplicándola por 16 
+(o aplicando un desplazamiento de bits << 4) para cubrir todo el rango del PWM.
+
+En el código modificado, ahora shared_data->pwm_active toma el valor directo de shared_data->adc_value
+y lo ajusta para que entre en el rango completo.
